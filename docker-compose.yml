@@ -1,0 +1,33 @@
+version: '3'
+services:
+    mongodb:
+        container_name: meshcentral_db
+        restart: always
+        image: mongo:latest
+        expose:
+            - 27017 #not exposed to the host
+        volumes:
+            - '/opt/meshcentral/database:/data/db'
+    meshcentral:
+        restart: always
+        container_name: meshcentral
+        depends_on:
+            - 'mongodb'
+        image: typhonragewind/meshcentral:1.1.2
+        ports:
+            - 8086:443 #Main port
+            - 4433:4433 #Exposed for AMT. Does not seem to work 100%. Need to check Firewall configuration
+        environment:
+            - HOSTNAME=meshcentral.jimender2.net #domain running everything
+            - REVERSE_PROXY=true
+            - REVERSE_PROXY_TLS_PORT=443
+            - IFRAME=false
+            - ALLOW_NEW_ACCOUNTS=true
+            - WEBRTC=false
+            - NODE_ENV=production
+        volumes:
+            - meshcentralData:/opt/meshcentral/meshcentral-data #change where the data is stored. Could be a bind mount.
+            - meshcentralUserFiles:/opt/meshcentral/meshcentral-files #change where the user files are stored.  Could be a bind mount
+volumes:
+    meshcentralData:
+    meshcentralUserFiles:
