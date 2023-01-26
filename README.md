@@ -16,3 +16,11 @@ Run the following command
     docker-compose up -d
 
 This should start the Mesh Central Docker container and the mongodb container as well.  The mongodb container is optional but recommended easier data persistence and performance.
+
+## Helpful Links
+
+https://meshcentral.com/info/
+
+https://meshcentral-community.com/doku.php?id=reference:config
+
+https://hub.docker.com/r/typhonragewind/meshcentral
